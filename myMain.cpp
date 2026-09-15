@@ -1,5 +1,6 @@
 #include <iostream>
 #include <bitset>
+#include <cstdint> // uint32_t 사용을 위한 헤더
 
 using namespace std;
  
