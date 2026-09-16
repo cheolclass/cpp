@@ -11,6 +11,9 @@ using namespace std;
  
 int main()
 {
+	// -------------------------------
+	// year-month-date style print out
+	// -------------------------------	
 	uint32_t	yearDate = 0x20260917;
 	unsigned short	*pYear, *pDate; 
 
@@ -31,7 +34,9 @@ int main()
 
 	wcout << *pMonth << L"월 " << *pdate << L"일 " << endl;
 
-	///------------------------
+	// -------------------------------
+	// month-date-year style print out
+	// -------------------------------
 	//uint32_t	yearDate2 = 0;
 	unsigned long long	yearDate2 = 0;
 	/// Sep 17 2026 <= 이 형태로 위 변수에 쓸 것
