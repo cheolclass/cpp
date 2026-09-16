@@ -17,7 +17,8 @@ int main()
 	_setmode(_fileno(stdout), _O_U16TEXT); // 윈도우 콘솔 창 유니코드 출력 모드
 
 	pDate = reinterpret_cast<unsigned short*>(&yearDate);
-	// ...
+	// ... exercise (blank below)
+	
 
 	pYear = pDate + 1;
 
