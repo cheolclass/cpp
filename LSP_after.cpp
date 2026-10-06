@@ -9,7 +9,7 @@ public:
 
 class Rectangle : public Shape
 {
-	double width;  /// 직사각형의 가로/세로와 정사각형의 가로/세로를 다르게 처리
+	double width;  /// Rectangle은 width와 height를 독립적으로 관리
 	double height;
 
 public:
@@ -25,7 +25,7 @@ public:
 class Square : public Shape
 {
 private:
-	double side;  /// 직사각형의 가로/세로와 정사각형의 가로/세로를 다르게 처리
+	double side;  /// Square는 하나의 side로 가로와 세로를 관리
 
 public:
 	void SetWidth(double d)  { side = d;	}
