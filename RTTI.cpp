@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <typeinfo> /// 
 
 using namespace std;
 
@@ -32,6 +33,7 @@ int main()
 
 	Human& h1 = dynamic_cast<Human&>(s);  // Reference: Student => Human, Upcasting
 	h1.normalFunc();
+	cout << typeid(h1).name() << endl;
 
 	//Human& h = dynamic_cast<Human&>(Student()); // 임시 객체	 
 	
