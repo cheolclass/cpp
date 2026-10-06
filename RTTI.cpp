@@ -10,7 +10,7 @@ public:
 	}
 
 	virtual ~Human() = default;  // 1.dynamic_cast 사용을 위한 다형성 제공 위해 => RTTI(Run-Time Type Information)
-	// 2. 구현 => 컴파일러에게 맡김
+	// 2. body 구현 => 컴파일러에게 맡김
 };
 
 class Student : public Human {
