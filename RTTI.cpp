@@ -40,7 +40,16 @@ int main()
 	Human* h2 = dynamic_cast<Human*>(&s); // Pointer: Student => Human
 	h2->normalFunc();
 		
-	//Student& h4 = dynamic_cast<Student&>(h); // Undefined Behavior: Human => Student. Downcasting
+	//Student& h3 = dynamic_cast<Student&>(h); // Undefined Behavior: Human => Student. Downcasting
+	try  // 실행시간 casting 오류 체크 
+	{
+		Student& h3 = dynamic_cast<Student&>(h); // Undefined Behavior: Human => Student, Downcasting
+	}
+	catch (const exception& e)  // std::bad_cast& e
+	{
+		cout << e.what() << endl;
+	}
+
 
 	return 0;
 }
