@@ -31,13 +31,13 @@ int main()
 	Human h0 = static_cast<Human>(s); // Student => Human. Object slicing
 	h0.normalFunc();
 
-	Human& h1 = dynamic_cast<Human&>(s);  // Reference: Student => Human. Upcasting
+	Human& h1 = dynamic_cast<Human&>(s);  // *Reference: Student => Human. Upcasting
 	h1.normalFunc();
 	cout << typeid(h1).name() << endl;
 
 	//Human& h = dynamic_cast<Human&>(Student()); // 임시 객체	 
 	
-	Human* h2 = dynamic_cast<Human*>(&s); // Pointer: Student => Human
+	Human* h2 = dynamic_cast<Human*>(&s); // *Pointer: Student => Human
 	h2->normalFunc();
 		
 	//Student& h3 = dynamic_cast<Student&>(h); // Undefined Behavior: Human => Student. Downcasting
