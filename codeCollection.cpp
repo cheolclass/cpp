@@ -144,7 +144,7 @@ public:
 };
 
 // 도형 객체들을 관리
-vector<unique_ptr<Shape>> shapes;
+vector<unique_ptr<Shape>> shapes;  /// 여러 종류의 도형 객체들을 저장하는 벡터 
  
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,
 	WPARAM wParam, LPARAM lParam)
@@ -159,8 +159,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,
 		for (const auto& shape : shapes)
 			shape->draw(hdc);
 
-
 		EndPaint(hwnd, &ps);
+		
 		return 0;
 	}
 
@@ -172,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-int main( ) {
+int main() {
 	//Shape sh;  // 다양한 방법으로 객체를 생성
 	//Square			s;
 	//Rectangle		r{4, 5};
@@ -212,7 +212,7 @@ int main( ) {
 	shapes.push_back(
 		make_unique<Line>(250, 50, 450, 150));
 
-	std::vector < POINT>  pts =
+	vector <POINT>  pts =
 	{
 				{250, 250},
 				{ 300, 180 },
@@ -220,7 +220,7 @@ int main( ) {
 				{ 450, 220 }
 	};
 	shapes.push_back(
-		std::make_unique< Polyline>  (pts)
+		make_unique< Polyline>  (pts)
 	);
 
 	ShowWindow(hwnd, SW_SHOW);
