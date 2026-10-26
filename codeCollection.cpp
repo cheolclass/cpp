@@ -144,7 +144,7 @@ public:
 };
 
 // 도형 객체들을 관리
-vector<unique_ptr<Shape>> shapes;  /// 여러 종류의 도형 객체들을 저장하는 벡터 
+vector<unique_ptr<Shape>> shapes;  /// 여러 종류의 도형 객체들을 저장하는 벡터. 자동 메모리 해제 
  
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,
 	WPARAM wParam, LPARAM lParam)
@@ -207,7 +207,7 @@ int main() {
 
 	// 다양한 도형 객체를 vector에 추가
 	shapes.push_back(
-		make_unique<Circle>(50, 50, 200, 200));
+		make_unique<Circle>(50, 50, 200, 200));  /// 내부적으로, new Circle() 느낌 => 이후 unique_ptr에 의해 관리 및 자동 삭제 
 
 	shapes.push_back(
 		make_unique<Line>(250, 50, 450, 150));
