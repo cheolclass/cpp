@@ -1,6 +1,73 @@
+////// 07.  클래스/상속 모델링 연습
+////// 그래픽 객체를 모델링 해보자 - point, line, polyline, rectagnle, square, cube, ...
+////// 각 객체의 속성과 특징을 반영할 수 있는 멤버(변수/함수)를 선언해 보자.
+////// 문법적인 요소들도 활용해 보자 - virtual, LSP 등 
+////// 작성한 코드는 본인이 이해 할 수 있어야 함.
+
+/// 모델링 예: 아래 클래스들을 참고하여 수정 확장해 볼 것.
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+class Shape
+{
+	int  someValue = 1;
+public:
+	virtual   double  Area() { return someValue; }
+};
+
+class		Rectangle : public Shape
+{
+public: // 생성자는 반드시 public 접근지정자
+	Rectangle(int w, int h) : width{w}, height{h} {}
+
+	int		width, height;
+
+	double	Area()
+	{
+		return width * height;
+	}
+
+};
+
+class		Square : public Shape
+{
+public:
+	Square() : side{ 3 } {}
+
+	int		side;
+
+	double	Area()
+	{
+		return side * side;
+		//return side ** 2;
+	}
+
+};
+
+void Func(Shape& s)
+{
+	double		area;
+	area = s.Area();
+
+	cout << area << endl;
+}
+
+int main() {
+
+	Shape sh;  // 다양한 방법으로 객체를 생성
+	Square			s;
+	Rectangle		r{4, 5};
+
+	Func(sh);
+	Func(s);
+	Func(r);
+
+ 	return 0;
+}
+
 ////// 07-2 상속성과 다형성
 ////// 다형성이란 무엇일까? : 함수 재정의하기 — 오버라이딩
-
 #include <iostream>
 using namespace std;
 
