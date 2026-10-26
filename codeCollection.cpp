@@ -1,6 +1,6 @@
 /* 07.  클래스/상속 모델링 연습
 그래픽 객체를 모델링 해보자.
-	point, line, polyline, triangle, rectangle, square, cube, circle, ...
+	shape, point, line, polyline, triangle, rectangle, square, cube, circle, ...
 각 객체의 속성과 특징을 반영할 수 있는 멤버(변수/함수)를 선언해 보자.
 다음 OOP 개념을 위한 문법적인 요소들을 1번 이상 활용할 것: 
 	접근 지정자를 통한 정보은폐, 상속, 멤버변수 초기화 방법(3가지), 
