@@ -1,3 +1,4 @@
+///---------------------------------------------
 /* 07.  클래스/상속 모델링 연습 & 과제 
 그래픽 객체를 모델링 해보자.
 	shape, point(다른 그래픽 객체간의 관계 검토), line, polyline, 
@@ -75,8 +76,170 @@ int main() {
  	return 0;
 }
 
-////// 07-2 상속성과 다형성
-////// 다형성이란 무엇일까? : 함수 재정의하기 — 오버라이딩
+///---------------------------------------------
+/// 07. 그래픽 객체 화면 그리기 - Windows API 활용
+#include <iostream>
+#include <string>
+#include <vector>
+#include <windows.h>
+
+using namespace std;
+
+struct Point {
+	int		x, y;
+};
+
+class Shape {
+public:
+	virtual void draw(HDC hdc) const = 0;
+	virtual ~Shape() = default;
+};
+
+class Circle : public Shape {
+private:
+	int x1, y1, x2, y2;
+
+public:
+	Circle(int x1, int y1, int x2, int y2)
+		: x1(x1), y1(y1), x2(x2), y2(y2) {}
+
+	void draw(HDC hdc) const override {
+		Ellipse(hdc, x1, y1, x2, y2);
+	}
+};
+
+class Line : public Shape {
+private:
+	int x1, y1, x2, y2;
+	/// vector<Point> points;
+
+public:
+	Line(int x1, int y1, int x2, int y2)
+		: x1(x1), y1(y1), x2(x2), y2(y2) {}
+
+	void draw(HDC hdc) const override {
+		MoveToEx(hdc, x1, y1, nullptr);
+		LineTo(hdc, x2, y2);
+	}
+};
+
+class Polyline : public Shape {
+private:
+	vector<POINT> points;  /// windows API 구조체 사용
+	/// vector<Point> points;   /// 내가 선언한 구조체 사용
+
+public:
+	Polyline(vector<POINT> points)
+		: points(points) {}
+
+	void draw(HDC hdc) const override {
+		if (points.size() >= 2) {
+			::Polyline(
+				hdc,
+				points.data(),
+				static_cast<int>(points.size())
+			);
+		}
+	}
+};
+
+// 도형 객체들을 관리
+vector<unique_ptr<Shape>> shapes;
+ 
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,
+	WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+
+		for (const auto& shape : shapes)
+			shape->draw(hdc);
+
+
+		EndPaint(hwnd, &ps);
+		return 0;
+	}
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	}
+
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+int main( ) {
+	//Shape sh;  // 다양한 방법으로 객체를 생성
+	//Square			s;
+	//Rectangle		r{4, 5};
+
+	//Func(sh);
+	//Func(s);
+	//Func(r);
+
+	/// console 창에 그리기
+	/*HDC hdc = GetDC(GetConsoleWindow());
+	Ellipse(hdc, 100, 100, 300, 300);
+	ReleaseDC(GetConsoleWindow(), hdc);*/
+
+	/// 별도 창에 그리기
+	HINSTANCE hInstance = GetModuleHandle(nullptr);
+
+	WNDCLASS wc = {};
+	wc.lpfnWndProc = WndProc;
+	wc.hInstance = hInstance;
+	wc.lpszClassName = L"CircleWindow";
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+
+	RegisterClass(&wc);
+
+	HWND hwnd = CreateWindowEx(
+		0, L"CircleWindow", L"Circle Drawing",
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, 500, 400,
+		nullptr, nullptr, hInstance, nullptr);
+	if (!hwnd)
+		return 1;
+
+	// 다양한 도형 객체를 vector에 추가
+	shapes.push_back(
+		make_unique<Circle>(50, 50, 200, 200));
+
+	shapes.push_back(
+		make_unique<Line>(250, 50, 450, 150));
+
+	std::vector < POINT>  pts =
+	{
+				{250, 250},
+				{ 300, 180 },
+				{ 350, 300 },
+				{ 450, 220 }
+	};
+	shapes.push_back(
+		std::make_unique< Polyline>  (pts)
+	);
+
+	ShowWindow(hwnd, SW_SHOW);
+	UpdateWindow(hwnd);
+
+	MSG msg;
+	while (GetMessage(&msg, nullptr, 0, 0) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	
+	return 0;
+}
+
+///---------------------------------------------
+/// 07-2 상속성과 다형성
+/// 다형성이란 무엇일까? : 함수 재정의하기 — 오버라이딩
 #include <iostream>
 using namespace std;
 
