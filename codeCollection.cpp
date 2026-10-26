@@ -1,4 +1,4 @@
-/* 07.  클래스/상속 모델링 연습
+/* 07.  클래스/상속 모델링 연습 & 과제 
 그래픽 객체를 모델링 해보자.
 	shape, point(다른 그래픽 객체간의 관계 검토), line, polyline, 
 	triangle, rectangle, square, 
