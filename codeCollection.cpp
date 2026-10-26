@@ -264,6 +264,11 @@ public:
 	player() { cout << "player" << endl;  };
 	virtual ~player() { cout << "~player" << endl; };
 
+	player(const player& pl) : main_body{pl.main_body} {  /// copy constructor
+	cout << "**player copy constructor" << endl; 
+};
+
+
 private:
 	character main_body;
 };
