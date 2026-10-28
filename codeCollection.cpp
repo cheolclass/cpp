@@ -1,3 +1,220 @@
+/// 그래픽 객체 모델링 예제 코드 공유
+
+#include <iostream>
+#include <vector>
+#include <memory>
+#include <string>
+using namespace std;
+
+// 1. 모든 그래픽 객체의 기반 클래스
+class Shape
+{
+public:
+	virtual void draw() const = 0;  // 순수 가상 함수
+	virtual string getName() const = 0;
+
+	virtual ~Shape() = default;
+};
+
+
+// 2. 점(Point)
+class Point
+{
+private:
+	double x, y;
+
+public:
+	Point(double x, double y)
+		: x(x), y(y) {}
+
+	double getX() const { return x; }
+	double getY() const { return y; }
+
+	void draw() const 
+	{
+		cout << "Point: (" << x << ", " << y << ")\n";
+	}
+
+	string getName() const 
+	{
+		return "Point";
+	}
+};
+
+
+// 3. 선분(Line)
+class Line : public Shape
+{
+private:
+	Point start, end;
+
+public:
+	Line(Point start, Point end)
+		: start(start), end(end) {}
+
+	void draw() const override
+	{
+		cout << "Line: ("
+			<< start.getX() << ", " << start.getY()
+			<< ") -> ("
+			<< end.getX() << ", " << end.getY()
+			<< ")\n";
+	}
+
+	string getName() const override
+	{
+		return "Line";
+	}
+};
+
+
+// 4. 다중 선분(Polyline)
+class Polyline : public Shape
+{
+private:
+	vector<Point> points;
+
+public:
+	void addPoint(const Point& p)
+	{
+		points.push_back(p);
+	}
+
+	void draw() const override
+	{
+		cout << "Polyline: ";
+
+		for (const Point& p : points)
+		{
+			cout << "(" << p.getX()
+				<< ", " << p.getY() << ") ";
+		}
+
+		cout << '\n';
+	}
+
+	string getName() const override
+	{
+		return "Polyline";
+	}
+};
+
+
+// 5. 삼각형(Triangle)
+class Triangle : public Shape
+{
+private:
+	Point p1, p2, p3;
+
+public:
+	Triangle(Point p1, Point p2, Point p3)
+		: p1(p1), p2(p2), p3(p3) {}
+
+	void draw() const override
+	{
+		cout << "Triangle: "
+			<< "(" << p1.getX() << ", " << p1.getY() << ") "
+			<< "(" << p2.getX() << ", " << p2.getY() << ") "
+			<< "(" << p3.getX() << ", " << p3.getY() << ")\n";
+	}
+
+	string getName() const override
+	{
+		return "Triangle";
+	}
+};
+
+
+// 6. 직사각형(Rectangle)
+class Rectangle : public Shape
+{
+protected:
+	double x, y;
+	double width, height;
+
+public:
+	Rectangle(double x, double y,
+		double width, double height)
+		: x(x), y(y),
+		width(width), height(height) {}
+
+	void draw() const override
+	{
+		cout << "Rectangle: origin=("
+			<< x << ", " << y
+			<< "), width=" << width
+			<< ", height=" << height << '\n';
+	}
+
+	string getName() const override
+	{
+		return "Rectangle";
+	}
+};
+
+
+// 7. 정사각형(Square)
+// Rectangle의 파생 클래스
+class Square : public Rectangle
+{
+public:
+	Square(double x, double y, double side)
+		: Rectangle(x, y, side, side) {}
+
+	void draw() const override
+	{
+		cout << "Square: origin=("
+			<< x << ", " << y
+			<< "), side=" << width << '\n';
+	}
+
+	string getName() const override
+	{
+		return "Square";
+	}
+};
+
+
+// 8. 실행 및 다형성 확인
+int main()
+{
+	vector<unique_ptr<Shape>> shapes;
+
+	shapes.push_back(make_unique<Point>(10, 20));
+
+	shapes.push_back(
+		make_unique<Line>(
+			Point(0, 0), Point(100, 100)));
+
+	auto polyline = make_unique<Polyline>();
+	polyline->addPoint(Point(0, 0));
+	polyline->addPoint(Point(20, 30));
+	polyline->addPoint(Point(50, 10));
+	shapes.push_back(move(polyline));
+
+	shapes.push_back(
+		make_unique<Triangle>(
+			Point(0, 0),
+			Point(50, 100),
+			Point(100, 0)));
+
+	shapes.push_back(
+		make_unique<Rectangle>(10, 20, 100, 50));
+
+	shapes.push_back(
+		make_unique<Square>(10, 20, 50));
+
+	for (const auto& shape : shapes)
+	{
+		cout << "[" << shape->getName() << "] ";
+		shape->draw();
+	}
+
+	return 0;
+}
+
+
+
 ///---------------------------------------------
 /* 07.  클래스/상속 모델링 연습 & 과제 
 그래픽 객체를 모델링 해보자.
