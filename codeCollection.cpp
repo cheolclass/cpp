@@ -18,7 +18,7 @@ public:
 
 
 // 2. 점(Point)
-class Point
+class Point  : public Shape  // <= correct? in reaworld view
 {
 private:
 	double x, y;
