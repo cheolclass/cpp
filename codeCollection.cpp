@@ -1,4 +1,4 @@
-/// 8장, 정적 멤버 관련 호출 가능 여부 테스트
+/// 8장, 정적 멤버 관련 호출 테스트
 #include <iostream>
 using namespace std;
 
