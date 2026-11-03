@@ -1,3 +1,4 @@
+///---------------------------------------------
 /// 8장, 정적 멤버 관련 호출 테스트
 #include <iostream>
 using namespace std;
@@ -15,7 +16,7 @@ private:
 
 public:
 	Line(int x1, int y1, int x2, int y2)
-		: x1_(x1), y1_(y1), x2_(x2), y2_(y2) {
+		: x1_(x1), y1_(y1), x2_(x2), y2_(y2) {77
 		cnt_++;
 	}
 
@@ -52,8 +53,8 @@ int main() {
 	return 0;
 }
 
-
-/// 7장, 그래픽 객체 모델링 예제 코드 공유
+///---------------------------------------------
+/// 7장, 그래픽 객체 모델링 예제 코드 
 #include <iostream>
 #include <vector>
 #include <memory>
