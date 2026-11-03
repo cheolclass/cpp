@@ -1,5 +1,59 @@
-/// 그래픽 객체 모델링 예제 코드 공유
+/// 8장, 정적 멤버 관련 호출 가능 여부 테스트
+#include <iostream>
+using namespace std;
 
+// 전역 함수 
+void Clear() { cout << "Canvas Cleared\n"; }
+
+// 외부 정적 함수 
+static bool Check(int v) { return v >= 0; }
+
+class Line {
+private:
+	int x1_, y1_, x2_, y2_;     // 일반 멤버 변수 
+	 inline static int cnt_ = 0; // 정적 멤버 변수  /// c++17
+
+public:
+	Line(int x1, int y1, int x2, int y2)
+		: x1_(x1), y1_(y1), x2_(x2), y2_(y2) {
+		cnt_++;
+	}
+
+	// 일반 멤버 함수 
+	void Draw() {
+		if (Check(x1_)) {  // 일반 -> 외부 정적 (가능)
+			Clear();       // 일반 -> 전역 (가능)
+			ShowCnt();     // 일반 -> 정적 멤버 (가능)
+			cout << 
+				"Line (" << x1_ << "," << y1_ << 
+				") to (" << x2_ << "," << y2_ << ") Draw\n";
+		}
+	}  
+
+	// 정적 멤버 함수 
+	static void ShowCnt() {
+		Clear();           // 정적 -> 전역 (가능)
+		cout << "Line#: " << cnt_ << endl;  // 정적 -> 정적 멤버 (가능)
+
+		// x1_ = 10;       // 에러: 정적 -> 일반 멤버 변수 접근 불가
+		// Draw();         // 에러: 정적 -> 일반 멤버 함수 호출 불가
+	}
+};  /// class  Line
+
+///int Line::cnt_ = 0;  /// 외부에서 private 정적 멤버 초기화 가능 (일반 접근 불가)
+
+int main() {
+	Line L1(0, 0, 10, 10);
+	Line L2(5, 5, 20, 20);
+
+	L1.Draw();  
+	Line::ShowCnt();  // 시스템 전체 선 개수 확인 (객체 없이 호출)
+
+	return 0;
+}
+
+
+/// 7장, 그래픽 객체 모델링 예제 코드 공유
 #include <iostream>
 #include <vector>
 #include <memory>
