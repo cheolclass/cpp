@@ -48,7 +48,7 @@ int main() {
 	// to_vector에 from_vector의 원소를 ‘깊은 복사’ 수행
 	vector<Person> to_vector;
 	copy(from_vector.begin(), from_vector.end(),
-		back_inserter(to_vector));
+		back_inserter(to_vector));  ////
 
 	// 복사 후 to_vector 출력
 	cout << "-----to_vector-----" << endl;
@@ -167,7 +167,7 @@ int main() {
     vector<Person> to_vector;
 
     copy(from_vector.begin(), from_vector.end(),
-         back_inserter(to_vector));
+         back_inserter(to_vector));  ////
 
     cout << "-----to_vector-----" << endl;
     print_person_all(to_vector);
